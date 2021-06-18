@@ -1,0 +1,39 @@
+/*
+ * 主要颜色定义存放
+ * 命名约定，请遵循 CONVENTION.md 中 CSS 变量约定
+ */
+ /* purgecss start ignore */
+:root {
+  --color-primary: #21b36c;
+  --color-primary-disable: #235f42;
+  --color-primary-gloomy: #7289DA;
+  --color-secondary: #1aab77;
+  --color-nonary:#171717;
+  --color-tertiary: #141414;
+  --color-gray-acitve: #1F1F1F;
+  --color-septenary: #282828;
+  --color-senary: #343434;
+  --color-senary-light: #353639;
+  --color-denary-008: rgba(255, 255, 255, 0.08);
+  --color-denary-018: rgba(255, 255, 255, 0.18);
+  --color-denary-012: rgba(255,255,255,0.12);
+  --color-denary-020: rgba(255,255,255,0.20);
+  --color-denary-050: rgba(0,0,0,0.5);
+  --color-octonary:#464646;
+  --color-tertiary-020: rgba(216, 216, 216, 0.2); /* #D8D8D8 */
+  --color-tertiary-070: rgba(94, 102, 102, 0.7);/* #5E6666 */
+  --color-tertiary-1: rgb(94, 102, 102); /* #5E6666 */
+  --color-quinary-disable: #929292;
+  --color-quaternary: #A8B3AE;
+  --color-corner-tag: #b4b4b4;
+  --color-quinary: #F3F7F6;
+  --color-denary: #ffffff;
+
+
+  --color-error: #DF4545;
+  --color-primary-warning: #CB612B;
+}
+
+.base-dark-mode {
+}
+/* purgecss end ignore */

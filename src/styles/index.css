@@ -1,0 +1,99 @@
+/* purgecss start ignore */
+
+html, body, #app {
+    height: 100%;
+}
+
+@font-face {
+    font-family: 'Rubik-Regular';
+    src: url('~@/assets/font/Rubik-Regular.woff2?max_age=31536000') format('woff2'),
+    url('~@/assets/font/Rubik-Regular.woff?max_age=31536000') format('woff');
+}
+
+body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    line-height: 1.5;
+    padding-right: 0 !important;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-family: Rubik-Regular, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+
+.collapse-fade-enter-active {
+    transform: translateY(100%);
+    transition: all 0.2s;
+}
+
+.collapse-fade-enter-to {
+    transform: translateY(0px);
+}
+
+.collapse-fade-leave-active {
+    transform: translateY(0px);
+    transition: all 0.2s;
+}
+
+.collapse-fade-leave-to {
+    transform: translateY(100%);
+}
+
+/*
+ 导航栏动画
+*/
+
+.nav-fade-enter-active,.nav-fade-leave-active {
+    transition: max-height 0.3s;
+    @apply transform-gpu
+}
+
+.nav-fade-enter-to, .nav-fade-leave-from {
+    max-height: 500px;
+}
+
+.nav-fade-enter-from, .nav-fade-leave-to {
+    max-height: 0;
+}
+
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+    transition: all .5s;
+}
+
+.fade-transform-enter-from {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+/* breadcrumb transition */
+.breadcrumb-enter-active,
+.breadcrumb-leave-active {
+    transition: all .5s;
+}
+
+.breadcrumb-enter,
+.breadcrumb-leave-active {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.breadcrumb-move {
+    transition: all .5s;
+}
+
+.breadcrumb-leave-active {
+    position: absolute;
+}
+
+/* purgecss end ignore */
+
