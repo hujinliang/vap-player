@@ -2,6 +2,7 @@
 
 html, body, #app {
     height: 100%;
+    overflow: auto;
 }
 
 @font-face {
@@ -12,7 +13,7 @@ html, body, #app {
 
 body {
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     margin: 0;
     line-height: 1.5;
     padding-right: 0 !important;

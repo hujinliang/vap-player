@@ -1,89 +1,88 @@
 <template>
-  <div>
-    <div ref="drop" class="dropify-wrapper" @click="showFileDialog">
-      <div class="dropify-message">{{message}}</div>
+  <div class="flex w-full flex-col items-center px-20px">
+    <div class="flex w-full flex-row items-center justify-between">
+      <file-upload action="SET_SRC" @drop='onDrop'>
+        <div class="break-all">{{ src || srcUploadMsg}}</div>
+      </file-upload>
+      <file-upload action="SET_CONFIG" @drop='onDrop'>
+        <div class="break-all">{{ config || configUploadMsg }}</div>
+      </file-upload>
     </div>
-    <video :src="src" ref="video"></video>
-    <el-button type="primary" @click="play">播放</el-button>
+    <div class="w-full exts mt-20px">
+      <el-button type="primary" @click="add">增加</el-button>
+      <ext-editor v-for="(item, index) in exts" :key="index" :info="item" @remove="del(index)"></ext-editor>
+    </div>
+    <div class="flex flex-row justify-center mt-20px">
+      <el-button type="primary" class="mr-20px" @click="save">保存</el-button>
+      <el-button type="primary" class="" @click="play">播放</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-import electron from 'electron'
+import FileUpload from '@/components/FileUpload.vue'
+import ExtEditor from '@/components/ExtEditor.vue'
+import { ipcRenderer } from 'electron';
 export default {
-  props: {
-    name: {
-      type: String
-    }
-  },
   data() {
     return {
-      message: "点击或将文件拖拽到至此处",
-      src: '',
+      srcUploadMsg: '点击或拖拽mp4文件到至此处',
+      configUploadMsg: '点击或拖拽config文件到至此处',
+      exts: []
     };
+  },
+  components: {
+    ExtEditor,
+    FileUpload,
+  },
+  computed: {
+    src() {
+      return this.$store.getters.src;
+    },
+    config() {
+      return this.$store.getters.config;
+    },
+    params() {
+      return this.$store.getters.params;
+    },
   },
   methods: {
     play() {
-      const v = this.$refs.video;
-      v.play()
+      this.$router.push('/player')
     },
-    // 拖拽文件
-    drop() {
-      const drop = this.$refs.drop;
-
-      drop.ondragover = () => {
-        return false;
-      };
-      drop.ondragleave = drop.ondragend = () => {
-        return false;
-      };
-      drop.ondrop = e => {
-        e.preventDefault();
-        for (let f of e.dataTransfer.files) {
-          this.message = "已选择文件：" + f.path;
-        }
-        return false;
-      };
+    async onDrop(action, path) {
+      this.$store.commit(action, path)
+      // 解析文件
+      if (action === 'SET_CONFIG') {
+        const res = await ipcRenderer.invoke('read-file', path);
+        this.$store.commit('SET_CONFIG_JSON', res)
+      }
     },
-    showFileDialog(name = "file") {
-      const dialog = electron.remote.dialog;
-      dialog.showOpenDialog(
-          {
-            properties: name === "save" ? ["openDirectory"] : ["openFile"]
-          },
-      ).then((result) => {
-        if (!result.canceled) {
-          const filename = result.filePaths
-          if ((filename && filename.length) === 1) {
-            this.message = "已选择文件：" + filename[0];
-            this.src = filename[0]
-          }
-        }
+    add() {
+      this.exts.push({
+        name: '',
+        text: ''
       })
-      .catch((err) => {
-        console.log(err)
-      })
+    },
+    del(index) {
+      this.exts.splice(index, 1)
+    },
+    save() {
+      this.$store.commit('SET_PARAMS', this.exts)
     }
   },
-  mounted() {
-    this.drop();
+  watch: {
+    params(v) {
+      this.exts = v;
+    }
   }
 };
 </script>
 
 <style scoped>
-.dropify-wrapper {
-  min-height: 190px;
-  max-width: 100%;
-  font-size: 14px;
-  padding: 20px 10px;
-  color: #777;
+.exts {
+  padding: 20px;
   background-color: #fff;
-  text-align: center;
   border: 2px dashed #e5e5e5;
-}
-video {
-  width: 300px;
-  height: 200px;
 }
 </style>

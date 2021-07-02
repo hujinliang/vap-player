@@ -1,6 +1,8 @@
 'use strict'
 
 import { app, protocol, BrowserWindow, Menu } from 'electron'
+import FileReaderService from './main/services/fileReader'
+
 import {
   createProtocol,
   installVueDevtools
@@ -79,6 +81,7 @@ function createWindow () {
       webSecurity: false,
     }
   })
+  const fs = new FileReaderService();
   createMenu()
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
