@@ -70,6 +70,6 @@ import Vap from 'video-animation-player'
 </script>
 <style lang="scss" scoped>
  .container {
-   background: rgba(189, 17, 217, .4);
+   background-image: url(~@/assets/bg.png);
  }
 </style>

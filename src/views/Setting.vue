@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full flex-col items-center px-20px">
+  <div class="flex w-full pt-30px flex-col items-center px-20px">
     <div class="flex w-full flex-row items-center justify-between">
       <file-upload action="SET_SRC" @drop='onDrop'>
         <div class="break-all">{{ src || srcUploadMsg}}</div>
