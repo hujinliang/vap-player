@@ -1,9 +1,9 @@
 <template>
-  <div class="pt-40px pb-20px">
-    <div class="title-bar bg-white fixed top-0 left-0 right-0 h-40px w-full flex flex-row justify-between px-20px items-center">
-      <img :src="logo" class="w-20px h-20px rounded-full">
+  <div class="pt-50px pb-20px">
+    <div class="title-bar bg-white fixed top-0 left-0 right-0 h-50px w-full flex flex-row justify-between px-20px items-center">
+      <img :src="logo" class="w-30px h-30px rounded-full">
       <div @click="close" class="title-bar-button cursor-pointer">
-        <svg-icon class-name="w-20px h-20px" name="close"></svg-icon>
+        <svg-icon :width="30" :height="30" class-name="" name="close"></svg-icon>
       </div>
     </div>
     <div class="flex w-full flex-col items-center px-20px">

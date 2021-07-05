@@ -1,11 +1,11 @@
 <template>
   <div class="flex relative flex-col items-center justify-center">
-    <div class="title-bar absolute top-0 left-0 right-0 h-40px w-full flex flex-row justify-between px-20px items-end">
+    <div class="title-bar absolute top-0 left-0 right-0 h-50px w-full flex flex-row justify-between px-20px items-center">
       <div @click="back" class="title-bar-button cursor-pointer text-white">
         <svg-icon :width="30" :height="30" class-name="" name="back"></svg-icon>
       </div>
     </div>
-    <div ref="anim"  class="container" :style="{ width: `${width}px`, height: `${height}px` }"></div>
+    <div ref="anim"  class="container" :style="{ width: `${playW}px`, height: `${playH}px` }"></div>
     <div class="flex absolute bottom-30px h-50px left-30px right-30px toolbar justify-center items-center">
       <img class="w-30px h-30px" @click="togglePlay" :src="playing ? pauseIcon : playIcon">
     </div>
@@ -22,6 +22,8 @@ import {remote} from "electron";
         playIcon: require('@/assets/play.png'),
         pauseIcon: require('@/assets/pause.png'),
         playing: false,
+        playW: 500,
+        playH:300,
       }
     },
     methods: {
@@ -44,8 +46,8 @@ import {remote} from "electron";
           // 素材视频链接
           src: this.src,
           config: this.configJson,
-          width: this.width,
-          height: this.height,
+          width: this.playW,
+          height: this.playH,
           fps: this.fps,
           // 精准模式
           accurate: true
@@ -96,7 +98,7 @@ import {remote} from "electron";
       },
       fps() {
         return this.info.fps
-      }
+      },
     },
     beforeMount() {
       // 计算尺寸
@@ -113,9 +115,11 @@ import {remote} from "electron";
         playH = screenH - 100
         playW = playH * ratio
       }
-      remote.getCurrentWindow().setSize(playW, playH)
+      this.playW = playW
+      this.playH = playH
+      remote.getCurrentWindow().setSize(Math.round(playW), Math.round(playH))
       // set position
-      remote.getCurrentWindow().setPosition((screenW - playW) / 2, (screenH - playH) / 2 )
+      remote.getCurrentWindow().setPosition(Math.round((screenW - playW) / 2), Math.round((screenH - playH) / 2) )
     },
     mounted() {
       this.play()
@@ -137,6 +141,7 @@ import {remote} from "electron";
    background-size: cover;
  }
  .title-bar {
+   background: rgba(0, 0, 0, .4);
    -webkit-user-select: none;
    -webkit-app-region: drag;
  }
