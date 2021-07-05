@@ -1,11 +1,14 @@
 <template>
   <div class="flex relative flex-col items-center justify-center">
-    <div class="title-bar absolute top-0 left-0 right-0 h-40px w-full flex flex-row justify-between px-20px items-center">
-      <div @click="back" class="title-bar-button">
-        <svg-icon class-name="w-20px h-20px" name="back"></svg-icon>
+    <div class="title-bar absolute top-0 left-0 right-0 h-40px w-full flex flex-row justify-between px-20px items-end">
+      <div @click="back" class="title-bar-button cursor-pointer text-white">
+        <svg-icon :width="30" :height="30" class-name="" name="back"></svg-icon>
       </div>
     </div>
     <div ref="anim"  class="container" :style="{ width: `${width}px`, height: `${height}px` }"></div>
+    <div class="flex absolute bottom-30px h-50px left-30px right-30px toolbar justify-center items-center">
+      <img class="w-30px h-30px" @click="togglePlay" :src="playing ? pauseIcon : playIcon">
+    </div>
   </div>
 </template>
 <script>
@@ -13,14 +16,27 @@ import Vap from 'video-animation-player'
 import {remote} from "electron";
   export default {
     name: 'Player',
-    state() {
+    data() {
       return {
         vap: null,
+        playIcon: require('@/assets/play.png'),
+        pauseIcon: require('@/assets/pause.png'),
+        playing: false,
       }
     },
     methods: {
       back() {
         this.$router.push('/')
+      },
+      togglePlay() {
+        if (!this.vap) {
+          this.play()
+        }
+        if (this.playing) {
+          this.vap.pause()
+        } else {
+          this.vap.play()
+        }
       },
       play () {
         const config = {
@@ -40,12 +56,18 @@ import {remote} from "electron";
         })
         this.vap = new Vap(config)
             .on('playing', () => {
+              this.playing = true
               console.log('playing')
             })
             .on('ended', () => {
+              this.playing = false
               console.log('play ended')
               this.vap = null;
-              this.$router.push('/')
+              // this.$router.push('/')
+            })
+            .on('pause', () => {
+              this.playing = false
+              console.log('pause')
             })
       }
     },
@@ -120,5 +142,8 @@ import {remote} from "electron";
  }
  .title-bar-button {
    -webkit-app-region: no-drag;
+ }
+ .toolbar {
+   background: rgba(0, 0, 0, .4);
  }
 </style>

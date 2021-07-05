@@ -257,7 +257,7 @@ module.exports = {
         '17px': '17px',
         '20px': '20px',
         '22px': '22px',
-        '31px': '31px',
+        '30px': '30px',
         '34px': '34px',
         '50px': '50px',
         '120px': '120px',

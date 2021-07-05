@@ -2,7 +2,7 @@
   <div class="pt-40px pb-20px">
     <div class="title-bar bg-white fixed top-0 left-0 right-0 h-40px w-full flex flex-row justify-between px-20px items-center">
       <img :src="logo" class="w-20px h-20px rounded-full">
-      <div @click="close" class="title-bar-button">
+      <div @click="close" class="title-bar-button cursor-pointer">
         <svg-icon class-name="w-20px h-20px" name="close"></svg-icon>
       </div>
     </div>
@@ -16,8 +16,11 @@
         </file-upload>
       </div>
       <p class="self-start text-12px mt-10px info" v-if="configJson.info">config信息已获取，可以不上传config文件</p>
-      <div class="w-full exts mt-20px">
-        <el-button type="primary" @click="add">Add Mix</el-button>
+      <div class="w-full exts mt-20px relative">
+        <p class="absolute text-12px text-gray-700 bg-white mix-tip">融合信息</p>
+        <div class="rounded-full w-30px h-30px add px-10px py-10px">
+          <img class="" :src="addIcon"  @click="add">
+        </div>
         <ext-editor v-for="(item, index) in exts" :key="index" :info="item" @remove="del(index)"></ext-editor>
       </div>
       <div class="flex flex-row justify-center mt-20px">
@@ -41,7 +44,8 @@ export default {
       srcUploadMsg: '点击或拖拽mp4文件到至此处',
       configUploadMsg: '点击或拖拽config文件到至此处',
       exts: [],
-      logo: require('@/assets/icon.png')
+      logo: require('@/assets/icon.png'),
+      addIcon: require('@/assets/plus.png')
     };
   },
   components: {
@@ -129,6 +133,12 @@ export default {
 }
 .info {
   color: #21B36C;
+}
+.add {
+  background: #409EFF;
+}
+.mix-tip {
+  top: -10px;
 }
 .title-bar {
   -webkit-user-select: none;
