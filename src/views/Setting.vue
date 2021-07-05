@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="title-bar h-40px w-full flex flex-row justify-between px-20px items-center">
+  <div class="pt-40px pb-20px">
+    <div class="title-bar bg-white fixed top-0 left-0 right-0 h-40px w-full flex flex-row justify-between px-20px items-center">
       <img :src="logo" class="w-20px h-20px rounded-full">
       <div @click="close" class="title-bar-button">
         <svg-icon class-name="w-20px h-20px" name="close"></svg-icon>
@@ -15,6 +15,7 @@
           <div class="break-all">{{ config || configUploadMsg }}</div>
         </file-upload>
       </div>
+      <p class="self-start text-12px mt-10px info" v-if="configJson.info">config信息已获取，可以不上传config文件</p>
       <div class="w-full exts mt-20px">
         <el-button type="primary" @click="add">Add Mix</el-button>
         <ext-editor v-for="(item, index) in exts" :key="index" :info="item" @remove="del(index)"></ext-editor>
@@ -57,6 +58,9 @@ export default {
     config() {
       return this.$store.getters.config;
     },
+    configJson() {
+      return this.$store.getters.configJson || {};
+    },
     params() {
       return this.$store.getters.params;
     },
@@ -67,6 +71,16 @@ export default {
     },
     async onDrop(action, path) {
       this.$store.commit(action, path)
+      if (action === 'SET_SRC') {
+        const res = await ipcRenderer.invoke('read-config', path);
+        try {
+          const config = JSON.parse(res)
+
+          this.$store.commit('SET_CONFIG_JSON', config)
+        } catch (e) {
+          console.error(e)
+        }
+      }
       // 解析文件
       if (action === 'SET_CONFIG') {
         const res = await ipcRenderer.invoke('read-file', path);
@@ -112,6 +126,9 @@ export default {
   padding: 20px;
   background-color: #fff;
   border: 2px dashed #e5e5e5;
+}
+.info {
+  color: #21B36C;
 }
 .title-bar {
   -webkit-user-select: none;
