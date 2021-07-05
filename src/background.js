@@ -105,6 +105,10 @@ function createWindow () {
     win.loadURL('app://./index.html')
   }
 
+  win.on('close', () => {
+    app.exit()
+  })
+
   win.on('closed', () => {
     win = null
   })
