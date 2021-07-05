@@ -1,6 +1,6 @@
 <template>
   <div class="flex relative flex-col items-center justify-center">
-    <div class="title-bar absolute top-0 left-0 right-0 h-50px w-full flex flex-row justify-between px-20px items-center">
+    <div :class="[isMac ? 'h-70px' : 'h-50px']" class="title-bar absolute top-0 left-0 right-0 w-full flex flex-row justify-between px-20px items-center">
       <div @click="back" class="title-bar-button cursor-pointer text-white">
         <svg-icon :width="30" :height="30" class-name="" name="back"></svg-icon>
       </div>
@@ -44,7 +44,8 @@ import {remote} from "electron";
         const config = {
           container: this.$refs.anim,
           // 素材视频链接
-          src: this.src,
+          // src: 'file:/Users/kennyhu/learn/vap/web/demo/src/components/demo.mp4',
+          src: this.isMac ? `file:${this.src}` : this.src,
           config: this.configJson,
           width: this.playW,
           height: this.playH,
@@ -76,6 +77,9 @@ import {remote} from "electron";
     computed : {
       screenSize() {
         return this.$store.getters.screenSize;
+      },
+      isMac() {
+        return this.$store.getters.isMac;
       },
       src() {
         return this.$store.getters.src;

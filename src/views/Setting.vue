@@ -1,8 +1,8 @@
 <template>
-  <div class="pt-50px pb-20px">
-    <div class="title-bar bg-white fixed top-0 left-0 right-0 h-50px w-full flex flex-row justify-between px-20px items-center">
+  <div :class="[isMac ? 'pt-60px' : 'pt-50px']" class="pb-20px">
+    <div :class="[isMac ? 'top-10px' : 'top-0']" class="title-bar bg-white fixed left-0 right-0 h-50px w-full flex flex-row justify-between px-20px items-center">
       <img :src="logo" class="w-30px h-30px rounded-full">
-      <div @click="close" class="title-bar-button cursor-pointer">
+      <div @click="close" class="title-bar-button cursor-pointer" v-if="!isMac">
         <svg-icon :width="30" :height="30" class-name="" name="close"></svg-icon>
       </div>
     </div>
@@ -53,6 +53,9 @@ export default {
     FileUpload,
   },
   computed: {
+    isMac() {
+      return this.$store.getters.isMac;
+    },
     screenSize() {
       return this.$store.getters.screenSize;
     },
@@ -116,6 +119,10 @@ export default {
   async mounted() {
     const res = await ipcRenderer.invoke('get-screen-size');
     this.$store.commit('SET_SCREEN_SIZE', res)
+
+    const mac = await ipcRenderer.invoke('is-mac');
+    this.$store.commit('SET_IS_MAC', mac)
+
     remote.getCurrentWindow().setSize(SETTING_PAGE_SIZE[0], SETTING_PAGE_SIZE[1])
     // position
     const screenW = this.screenSize[0]
