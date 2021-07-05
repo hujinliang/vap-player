@@ -4,6 +4,9 @@ Vue.use(Vuex)
 
 let store = new Vuex.Store({
     state : {
+        // base
+        screenSize: [500, 400],
+        // play config
         src: '',
         config: '',
         params: [],
@@ -16,6 +19,9 @@ let store = new Vuex.Store({
 
     },
     mutations : {
+        SET_SCREEN_SIZE(state, size) {
+            state.screenSize = size
+        },
         SET_SRC(state, src) {
             state.src = src
         },
@@ -30,6 +36,7 @@ let store = new Vuex.Store({
         }
     },
     getters : {
+        screenSize : state => state.screenSize,
         src : state => state.src,
         config : state => state.config,
         configJson : state => state.configJson || {},

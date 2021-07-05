@@ -1,7 +1,8 @@
 'use strict'
 
 import { app, protocol, BrowserWindow, Menu } from 'electron'
-import FileReaderService from './main/services/fileReader'
+import FileReaderService from './main/services/FileReader'
+import SizeService from './main/services/Size'
 
 import {
   createProtocol,
@@ -74,6 +75,7 @@ function createWindow () {
     height: 600,
     useContentSize: true,
     titleBarStyle: 'hidden',
+    frame: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -82,6 +84,7 @@ function createWindow () {
     }
   })
   const fs = new FileReaderService();
+  const size = new SizeService();
   createMenu()
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

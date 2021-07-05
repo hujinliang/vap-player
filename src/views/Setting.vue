@@ -9,12 +9,12 @@
       </file-upload>
     </div>
     <div class="w-full exts mt-20px">
-      <el-button type="primary" @click="add">增加</el-button>
+      <el-button type="primary" @click="add">Add Mix</el-button>
       <ext-editor v-for="(item, index) in exts" :key="index" :info="item" @remove="del(index)"></ext-editor>
     </div>
     <div class="flex flex-row justify-center mt-20px">
-      <el-button type="primary" class="mr-20px" @click="save">保存</el-button>
-      <el-button type="primary" class="" @click="play">播放</el-button>
+      <el-button type="primary" class="mr-20px" @click="save">Save</el-button>
+      <el-button type="primary" class="" @click="play">Play</el-button>
     </div>
   </div>
 </template>
@@ -22,7 +22,10 @@
 <script>
 import FileUpload from '@/components/FileUpload.vue'
 import ExtEditor from '@/components/ExtEditor.vue'
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
+
+const SETTING_PAGE_SIZE = [1000, 600]
+
 export default {
   data() {
     return {
@@ -36,6 +39,9 @@ export default {
     FileUpload,
   },
   computed: {
+    screenSize() {
+      return this.$store.getters.screenSize;
+    },
     src() {
       return this.$store.getters.src;
     },
@@ -75,6 +81,15 @@ export default {
     params(v) {
       this.exts = v;
     }
+  },
+  async mounted() {
+    const res = await ipcRenderer.invoke('get-screen-size');
+    this.$store.commit('SET_SCREEN_SIZE', res)
+    remote.getCurrentWindow().setSize(SETTING_PAGE_SIZE[0], SETTING_PAGE_SIZE[1])
+    // position
+    const screenW = this.screenSize[0]
+    const screenH = this.screenSize[1]
+    remote.getCurrentWindow().setPosition((screenW - SETTING_PAGE_SIZE[0]) / 2, (screenH - SETTING_PAGE_SIZE[1]) / 2 )
   }
 };
 </script>
