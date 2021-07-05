@@ -1,11 +1,11 @@
 <template>
   <div class="flex relative flex-col items-center justify-center">
-    <div ref="anim"  class="container" :style="{ width: `${width}px`, height: `${height}px` }"></div>
-    <div class="absolute left-10px top-10px">
-      <el-button type="primary" @click="back">
-        Back
-      </el-button>
+    <div class="title-bar absolute top-0 left-0 right-0 h-40px w-full flex flex-row justify-between px-20px items-center">
+      <div @click="back" class="title-bar-button">
+        <svg-icon class-name="w-20px h-20px" name="back"></svg-icon>
+      </div>
     </div>
+    <div ref="anim"  class="container" :style="{ width: `${width}px`, height: `${height}px` }"></div>
   </div>
 </template>
 <script>
@@ -113,5 +113,12 @@ import {remote} from "electron";
  .container {
    background-image: url(~@/assets/bg.png);
    background-size: cover;
+ }
+ .title-bar {
+   -webkit-user-select: none;
+   -webkit-app-region: drag;
+ }
+ .title-bar-button {
+   -webkit-app-region: no-drag;
  }
 </style>

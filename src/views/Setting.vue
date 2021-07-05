@@ -1,20 +1,28 @@
 <template>
-  <div class="flex w-full pt-30px flex-col items-center px-20px">
-    <div class="flex w-full flex-row items-center justify-between">
-      <file-upload action="SET_SRC" @drop='onDrop'>
-        <div class="break-all">{{ src || srcUploadMsg}}</div>
-      </file-upload>
-      <file-upload action="SET_CONFIG" @drop='onDrop'>
-        <div class="break-all">{{ config || configUploadMsg }}</div>
-      </file-upload>
+  <div>
+    <div class="title-bar h-40px w-full flex flex-row justify-between px-20px items-center">
+      <img :src="logo" class="w-20px h-20px rounded-full">
+      <div @click="close" class="title-bar-button">
+        <svg-icon class-name="w-20px h-20px" name="close"></svg-icon>
+      </div>
     </div>
-    <div class="w-full exts mt-20px">
-      <el-button type="primary" @click="add">Add Mix</el-button>
-      <ext-editor v-for="(item, index) in exts" :key="index" :info="item" @remove="del(index)"></ext-editor>
-    </div>
-    <div class="flex flex-row justify-center mt-20px">
-      <el-button type="primary" class="mr-20px" @click="save">Save</el-button>
-      <el-button type="primary" class="" @click="play">Play</el-button>
+    <div class="flex w-full flex-col items-center px-20px">
+      <div class="flex w-full flex-row items-center justify-between">
+        <file-upload action="SET_SRC" @drop='onDrop'>
+          <div class="break-all">{{ src || srcUploadMsg}}</div>
+        </file-upload>
+        <file-upload action="SET_CONFIG" @drop='onDrop'>
+          <div class="break-all">{{ config || configUploadMsg }}</div>
+        </file-upload>
+      </div>
+      <div class="w-full exts mt-20px">
+        <el-button type="primary" @click="add">Add Mix</el-button>
+        <ext-editor v-for="(item, index) in exts" :key="index" :info="item" @remove="del(index)"></ext-editor>
+      </div>
+      <div class="flex flex-row justify-center mt-20px">
+        <el-button type="primary" class="mr-20px" @click="save">Save</el-button>
+        <el-button type="primary" class="" @click="play">Play</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +39,8 @@ export default {
     return {
       srcUploadMsg: '点击或拖拽mp4文件到至此处',
       configUploadMsg: '点击或拖拽config文件到至此处',
-      exts: []
+      exts: [],
+      logo: require('@/assets/icon.png')
     };
   },
   components: {
@@ -75,6 +84,10 @@ export default {
     },
     save() {
       this.$store.commit('SET_PARAMS', this.exts)
+    },
+    // 关闭应用
+    close() {
+      ipcRenderer.send('close-application')
     }
   },
   watch: {
@@ -99,5 +112,12 @@ export default {
   padding: 20px;
   background-color: #fff;
   border: 2px dashed #e5e5e5;
+}
+.title-bar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+.title-bar-button {
+  -webkit-app-region: no-drag;
 }
 </style>

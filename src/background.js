@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, Menu } from 'electron'
+import { app, protocol, BrowserWindow, Menu, ipcMain } from 'electron'
 import FileReaderService from './main/services/FileReader'
 import SizeService from './main/services/Size'
 
@@ -85,6 +85,11 @@ function createWindow () {
   })
   const fs = new FileReaderService();
   const size = new SizeService();
+
+  ipcMain.on('close-application', () => {
+    win.destroy()
+  })
+
   createMenu()
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
