@@ -22,7 +22,7 @@ const routes = [
 
 const createRouter = () => {
   return new Router({
-    mode: 'history',
+    mode: 'hash',
     // require service support
     scrollBehavior: () => ({ y: 0 }),
     routes: routes
