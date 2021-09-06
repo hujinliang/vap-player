@@ -21,6 +21,10 @@ export default class FileReaderService {
         var arrayBuffer = fs.readFileSync(path).buffer;
         arrayBuffer.fileStart = 0;
         mp4boxfile.appendBuffer(arrayBuffer);
-        return Buffer.from(mp4boxfile.boxes[1].data).toString()
+        let box = mp4boxfile.boxes[1]
+        if (box.type !== 'vapc') {
+            box = mp4boxfile.boxes[3]
+        }
+        return Buffer.from(box.data).toString()
     }
 }
