@@ -24,7 +24,7 @@
         <ext-editor v-for="(item, index) in exts" :key="index" :info="item" @remove="del(index)"></ext-editor>
       </div>
       <div class="flex flex-row justify-center mt-20px">
-        <el-button type="primary" class="mr-20px" @click="save">Save</el-button>
+<!--        <el-button type="primary" class="mr-20px" @click="save">Save</el-button>-->
         <el-button type="primary" class="" @click="play">Play</el-button>
       </div>
     </div>
@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     play() {
+      this.save();
       this.$router.push('/player')
     },
     async onDrop(action, path) {
