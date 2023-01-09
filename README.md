@@ -1,5 +1,5 @@
 # vap-player
-a specially player for [VAP](https://github.com/Tencent/vap)
+a opensource specially player for [VAP](https://github.com/Tencent/vap)
 
 ## install
 ```
