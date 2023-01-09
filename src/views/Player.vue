@@ -5,7 +5,7 @@
         <svg-icon :width="30" :height="30" class-name="" name="back"></svg-icon>
       </div>
     </div>
-    <div ref="anim"  class="container" :style="{ width: `${playW}px`, height: `${playH}px` }"></div>
+    <div ref="anim" class="container" :style="{ width: `${playW}px`, height: `${playH}px` }"></div>
     <div class="flex absolute bottom-30px h-50px left-30px right-30px toolbar justify-center items-center">
       <img class="w-30px h-30px" @click="togglePlay" :src="playing ? pauseIcon : playIcon">
     </div>
@@ -44,7 +44,6 @@ import {remote} from "electron";
         const config = {
           container: this.$refs.anim,
           // 素材视频链接
-          // src: 'file:/Users/kennyhu/learn/vap/web/demo/src/components/demo.mp4',
           src: this.isMac ? `file:${this.src}` : this.src,
           config: this.configJson,
           width: this.playW,
