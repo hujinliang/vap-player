@@ -15,7 +15,7 @@
 import Vap from 'video-animation-player'
 import {remote} from "electron";
   export default {
-    name: 'Player',
+    name: 'PlayerIns',
     data() {
       return {
         vap: null,
