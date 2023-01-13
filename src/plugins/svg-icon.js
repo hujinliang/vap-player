@@ -1,7 +1,7 @@
 import SvgIcon from '@/components/SvgIcon.vue'
 
 /**
- * 引入所有的 svg icon，这样就不需要在单独的组件中引入了
+ * 引入所有的 svg icon
  */
 const importAllSvgIcons = () => {
   const requireAll = requireContext => requireContext.keys().map(requireContext)
